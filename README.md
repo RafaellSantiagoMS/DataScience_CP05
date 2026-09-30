@@ -37,5 +37,5 @@ Os preços são de anúncios de 2019, e não de vendas efetivas. O erro médio �
 
 ## Links
 
-- GitHub:
-- Streamlit:
+- [GitHub:]([https://google.com](https://github.com/RafaellSantiagoMS/DataScience_CP05/)
+- [Streamlit:]([https://google.com](https://datasciencecp05-tnjy9hyxbr6y7vqhhibo4p.streamlit.app/)
