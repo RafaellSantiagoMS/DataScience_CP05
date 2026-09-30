@@ -85,8 +85,18 @@ with col3:
     piscina = st.checkbox("Piscina", bool(padrao("piscina", 0)))
     mobiliado = st.checkbox("Mobiliado", bool(padrao("mobiliado", 0)))
     novo = st.checkbox("Imóvel novo", bool(padrao("novo", 0)))
-    latitude = st.number_input("Latitude (0 se não souber)", -90.0, 0.0, float(padrao("latitude", 0.0)), format="%.6f")
-    longitude = st.number_input("Longitude (0 se não souber)", -90.0, 0.0, float(padrao("longitude", 0.0)), format="%.6f")
+
+# localização: por padrão usamos o centro típico do distrito (mediana das coordenadas da base)
+centro = base.groupby("distrito")[["latitude", "longitude"]].median()
+tem_coord = st.session_state.entrada is not None and st.session_state.entrada.get("latitude") is not None
+with st.expander("Localização exata (opcional)"):
+    st.write("Se não souber, deixe desmarcado: o app usa o centro típico do distrito escolhido.")
+    usar_coord = st.checkbox("Informar latitude e longitude", value=tem_coord)
+    if usar_coord:
+        latitude = st.number_input("Latitude", -24.0, -23.3, float(padrao("latitude", centro.loc[distrito, "latitude"])), format="%.6f")
+        longitude = st.number_input("Longitude", -47.0, -46.3, float(padrao("longitude", centro.loc[distrito, "longitude"])), format="%.6f")
+if not usar_coord:
+    latitude, longitude = centro.loc[distrito, "latitude"], centro.loc[distrito, "longitude"]
 
 entrada = pd.DataFrame([{
     "area_m2": area, "quartos": quartos, "banheiros": banheiros, "suites": suites, "vagas": vagas,
