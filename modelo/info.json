@@ -1,8 +1,8 @@
 {
-  "modelo": "LightGBM (Grid Search)",
-  "rmse_teste": 191530.64031634215,
-  "mae_teste": 87919.30190751173,
-  "r2_teste": 0.937923818065506,
+  "modelo": "LightGBM (Optuna)",
+  "rmse_teste": 197908.6058263189,
+  "mae_teste": 87993.5667069966,
+  "r2_teste": 0.9337207119147195,
   "distritos": [
     "Alto de Pinheiros",
     "Anhanguera",
@@ -137,5 +137,5 @@
     "longitude": -46.604326,
     "distrito": "Ipiranga"
   },
-  "paridade_previsao_notebook": 520285.27511924366
+  "paridade_previsao_notebook": 501796.37356573646
 }
