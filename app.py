@@ -40,6 +40,15 @@ def limpar_imovel(df):
     return df
 
 
+def brl(valor, casas=0, markdown=True):
+    """Formata no padrão brasileiro: R$ 191.531 ou R$ 520.285,28.
+    Em textos com markdown o $ precisa de uma barra antes; sem ela, o Streamlit
+    entende o trecho entre dois $ como fórmula matemática."""
+    texto = f"{valor:,.{casas}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    simbolo = "R\\$" if markdown else "R$"
+    return f"{simbolo} {texto}"
+
+
 modelo = carregar_modelo()
 info = carregar_info()
 base = carregar_base()
@@ -52,9 +61,9 @@ st.write(
 )
 
 c1, c2, c3 = st.columns(3)
-c1.metric("RMSE no teste", f"R$ {info['rmse_teste']:,.0f}")
-c2.metric("MAE no teste", f"R$ {info['mae_teste']:,.0f}")
-c3.metric("R² no teste", f"{info['r2_teste']:.3f}")
+c1.metric("RMSE no teste", brl(info["rmse_teste"], markdown=False))
+c2.metric("MAE no teste", brl(info["mae_teste"], markdown=False))
+c3.metric("R² no teste", f"{info['r2_teste']:.3f}".replace(".", ","))
 
 if "entrada" not in st.session_state:
     st.session_state.entrada = None
@@ -113,11 +122,11 @@ for campo, nome in [("area_m2", "Área"), ("quartos", "Quartos"), ("banheiros", 
         st.warning(f"{nome} fora da faixa vista no treino ({minimo:g} a {maximo:g}); a previsão pode ser pouco confiável.")
 
 previsao = modelo.predict(limpar_imovel(entrada))[0]
-st.subheader(f"Preço estimado: R$ {previsao:,.2f}")
-st.caption(f"Em dados novos, o modelo erra em média cerca de R$ {info['mae_teste']:,.0f}.")
+st.subheader(f"Preço estimado: {brl(previsao, 2)}")
+st.caption(f"Em dados novos, o modelo erra em média cerca de {brl(info['mae_teste'])}.")
 
 if st.session_state.entrada is not None:
-    st.info(f"Teste de paridade - notebook: R$ {info['paridade_previsao_notebook']:,.2f} | app: R$ {previsao:,.2f}")
+    st.info(f"Teste de paridade - notebook: {brl(info['paridade_previsao_notebook'], 2)} | app: {brl(previsao, 2)}")
 
 with st.expander("Ver amostra da base"):
     st.dataframe(base.sample(10, random_state=1))
