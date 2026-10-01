@@ -12,7 +12,16 @@ São Paulo Real Estate - Sale/Rent - April 2019 (Kaggle): https://www.kaggle.com
 
 ## Resultado
 
-Modelo final: LightGBM ajustado pelo Grid Search. No teste: RMSE de R$ 191,5 mil, MAE de R$ 87,9 mil e R² de 0,94.
+Os três modelos usaram o mesmo pipeline, os mesmos 5 folds de validação cruzada e o RMSE como métrica principal. O teste (20% da base) só foi usado no final.
+
+| Configuração | RMSE na validação cruzada |
+|---|---|
+| LightGBM (Optuna) | R$ 221,1 mil |
+| LightGBM (Grid Search) | R$ 223,6 mil |
+| XGBoost (Optuna) | R$ 227,8 mil |
+| Random Forest (Optuna) | R$ 239,4 mil |
+
+Modelo final: LightGBM ajustado pelo Optuna. No teste: RMSE de R$ 197,9 mil, MAE de R$ 88,0 mil e R² de 0,93. A tabela completa com as nove configurações está na seção 6 do notebook.
 
 ## Arquivos
 
@@ -37,5 +46,5 @@ Os preços são de anúncios de 2019, e não de vendas efetivas. O erro médio �
 
 ## Links
 
-- [GitHub:]([https://google.com](https://github.com/RafaellSantiagoMS/DataScience_CP05/)
-- [Streamlit:]([https://google.com](https://datasciencecp05-tnjy9hyxbr6y7vqhhibo4p.streamlit.app/)
+- GitHub: https://github.com/RafaellSantiagoMS/DataScience_CP05
+- Aplicação Streamlit: https://datasciencecp05-tnjy9hyxbr6y7vqhhibo4p.streamlit.app/
